@@ -124,4 +124,24 @@ public class GildedRoseTest {
                 customItem instanceof OtherCustomItem);
     }
 
+    @Test
+    public void testCustomItemGetter() throws Exception{
+
+        parentItem = new Item(GildedRose.AGED_BRIE_ITEM, 5 ,3);
+        CustomItem customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        Assert.assertEquals("Custom item's getter return wrong sell inn value.", customItem.getSellInn(), 5);
+        Assert.assertEquals("Custom item's getter return wrong quality value.", customItem.getQuality(), 3);
+
+    }
+    @Test
+    public void testCustomItemSetters() throws Exception{
+
+        parentItem = new Item(GildedRose.AGED_BRIE_ITEM, 5 ,3);
+        CustomItem customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        customItem.setSellInn(10);
+        customItem.setQuality(20);
+        Assert.assertEquals("Custom item's setter sets wrong sell inn value.", customItem.getSellInn(), 10);
+        Assert.assertEquals("Custom item's setter sets wrong quality value.", customItem.getQuality(), 20);
+    }
+
 }

@@ -37,4 +37,24 @@ public class AgedBrieCustomItem extends Item implements CustomItem {
         super.sellIn = sellIn;
         super.quality = quality;
     }
+
+    @Override
+    public void setSellInn(int sellInn) {
+        super.sellIn = sellInn;
+    }
+
+    @Override
+    public void setQuality(int quality) {
+        super.quality = quality;
+    }
+
+    @Override
+    public int getSellInn() {
+        return super.sellIn;
+    }
+
+    @Override
+    public int getQuality() {
+        return super.quality;
+    }
 }
