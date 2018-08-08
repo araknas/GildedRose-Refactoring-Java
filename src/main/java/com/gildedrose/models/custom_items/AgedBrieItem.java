@@ -5,11 +5,11 @@ import com.gildedrose.Item;
 /**
  * Created by Giedrius on 2018-08-08.
  */
-public class AgedBrieCustomItem extends Item implements CustomItem {
+public class AgedBrieItem extends Item implements CustomItem {
 
     private static final int MAX_QUALITY_VALUE = 50;
 
-    public AgedBrieCustomItem(String name, int sellIn, int quality) {
+    public AgedBrieItem(String name, int sellIn, int quality) {
         super(name, sellIn, quality);
     }
 

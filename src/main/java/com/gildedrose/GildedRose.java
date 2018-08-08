@@ -7,6 +7,7 @@ class GildedRose {
     public static final String AGED_BRIE_ITEM = "Aged Brie";
     public static final String BACKSTAGE_PASSES_ITEM = "Backstage passes to a TAFKAL80ETC concert";
     public static final String SULFURAS_ITEM = "Sulfuras, Hand of Ragnaros";
+    public static final String CONJURED_ITEM = "Conjured";
 
     Item[] items;
 
@@ -33,16 +34,19 @@ class GildedRose {
             String itemName = parentItem.name;
             switch (itemName){
                 case AGED_BRIE_ITEM:
-                    customItem = new AgedBrieCustomItem(parentItem.name, parentItem.sellIn, parentItem.quality);
+                    customItem = new AgedBrieItem(parentItem.name, parentItem.sellIn, parentItem.quality);
                     break;
                 case BACKSTAGE_PASSES_ITEM:
-                    customItem = new BackStagePassesCustomItem(parentItem.name, parentItem.sellIn, parentItem.quality);
+                    customItem = new BackStagePassesItem(parentItem.name, parentItem.sellIn, parentItem.quality);
                     break;
                 case SULFURAS_ITEM:
-                    customItem = new SulfurasCustomItem(parentItem.name, parentItem.sellIn, parentItem.quality);
+                    customItem = new SulfurasItem(parentItem.name, parentItem.sellIn, parentItem.quality);
+                    break;
+                case CONJURED_ITEM:
+                    customItem = new ConjuredItem(parentItem.name, parentItem.sellIn, parentItem.quality);
                     break;
                 default:
-                    customItem = new OtherCustomItem(parentItem.name, parentItem.sellIn, parentItem.quality);
+                    customItem = new OtherItem(parentItem.name, parentItem.sellIn, parentItem.quality);
                     break;
             }
         }

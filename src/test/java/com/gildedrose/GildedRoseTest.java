@@ -9,10 +9,11 @@ import static org.junit.Assert.assertEquals;
 
 public class GildedRoseTest {
 
-    AgedBrieCustomItem agedBrieItem = null;
-    BackStagePassesCustomItem backStagePassesItem = null;
-    SulfurasCustomItem sulfurasItem = null;
-    OtherCustomItem otherItem = null;
+    AgedBrieItem agedBrieItem = null;
+    BackStagePassesItem backStagePassesItem = null;
+    SulfurasItem sulfurasItem = null;
+    ConjuredItem conjuredItem = null;
+    OtherItem otherItem = null;
     Item parentItem = null;
 
     @Before
@@ -21,20 +22,22 @@ public class GildedRoseTest {
 
     @Test
     public void testCustomItemsInitiation() throws Exception{
-        agedBrieItem = new AgedBrieCustomItem(GildedRose.AGED_BRIE_ITEM, 0 ,0);
-        backStagePassesItem = new BackStagePassesCustomItem(GildedRose.BACKSTAGE_PASSES_ITEM, 0 ,0);
-        sulfurasItem = new SulfurasCustomItem(GildedRose.SULFURAS_ITEM, 0 ,0);
-        otherItem = new OtherCustomItem("Elixir of the Mongoose", 0 ,0);
+        agedBrieItem = new AgedBrieItem(GildedRose.AGED_BRIE_ITEM, 0 ,0);
+        backStagePassesItem = new BackStagePassesItem(GildedRose.BACKSTAGE_PASSES_ITEM, 0 ,0);
+        sulfurasItem = new SulfurasItem(GildedRose.SULFURAS_ITEM, 0 ,0);
+        otherItem = new OtherItem("Elixir of the Mongoose", 0 ,0);
+        conjuredItem = new ConjuredItem(GildedRose.CONJURED_ITEM, 0 ,0);
 
         assertEquals("Aged Brie", agedBrieItem.name);
         assertEquals("Backstage passes to a TAFKAL80ETC concert", backStagePassesItem.name);
         assertEquals("Sulfuras, Hand of Ragnaros", sulfurasItem.name);
         assertEquals("Elixir of the Mongoose", otherItem.name);
+        assertEquals("Conjured", conjuredItem.name);
     }
     @Test
      public void testAgedBrieItemValuesRecalculation() throws Exception{
 
-        agedBrieItem = new AgedBrieCustomItem(GildedRose.AGED_BRIE_ITEM, 2, 0);
+        agedBrieItem = new AgedBrieItem(GildedRose.AGED_BRIE_ITEM, 2, 0);
         agedBrieItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -51,7 +54,7 @@ public class GildedRoseTest {
     @Test
     public void testBackStagePassesItemValuesRecalculation() throws Exception{
 
-        backStagePassesItem = new BackStagePassesCustomItem(GildedRose.BACKSTAGE_PASSES_ITEM, 15, 20);
+        backStagePassesItem = new BackStagePassesItem(GildedRose.BACKSTAGE_PASSES_ITEM, 15, 20);
         backStagePassesItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -68,7 +71,7 @@ public class GildedRoseTest {
     @Test
     public void testSulfurasItemValuesRecalculation() throws Exception{
 
-        sulfurasItem = new SulfurasCustomItem(GildedRose.SULFURAS_ITEM, 0, 80);
+        sulfurasItem = new SulfurasItem(GildedRose.SULFURAS_ITEM, 0, 80);
         sulfurasItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -85,7 +88,7 @@ public class GildedRoseTest {
     @Test
     public void testOtherItemValuesRecalculation() throws Exception{
 
-        otherItem = new OtherCustomItem("Elixir of the Mongoose", 5, 7);
+        otherItem = new OtherItem("Elixir of the Mongoose", 5, 7);
         otherItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -100,28 +103,50 @@ public class GildedRoseTest {
     }
 
     @Test
+    public void testConjuredItemValuesRecalculation() throws Exception{
+
+        conjuredItem = new ConjuredItem(GildedRose.CONJURED_ITEM, 0, 4);
+        conjuredItem.recalculateItemValuesAfterOneDay();
+
+        // Values are taken form golden_output.txt
+        int expectedSellIn = -1;
+        int expectedQuality = 0;
+
+        int currentQuality = conjuredItem.quality;
+        int currentSellIn = conjuredItem.sellIn;
+
+        assertEquals("After one day Conjured item sell inn value is incorrect.", expectedSellIn, currentSellIn);
+        assertEquals("After one day Conjured item quality value is incorrect.", expectedQuality, currentQuality);
+    }
+
+    @Test
     public void testCustomItemInitiationFromParentItem() throws Exception{
 
         parentItem = new Item(GildedRose.AGED_BRIE_ITEM, 0 ,0);
         CustomItem customItem = GildedRose.initiateCustomItemFromParent(parentItem);
         Assert.assertNotNull("Custom item cannot be null.", customItem);
-        Assert.assertTrue("Custom item expected to be instance of AgedBrieCustomItem.",
-                customItem instanceof AgedBrieCustomItem);
+        Assert.assertTrue("Custom item expected to be instance of AgedBrieItem.",
+                customItem instanceof AgedBrieItem);
 
         parentItem = new Item(GildedRose.BACKSTAGE_PASSES_ITEM, 0 ,0);
         customItem = GildedRose.initiateCustomItemFromParent(parentItem);
-        Assert.assertTrue("Custom item expected to be instance of BackStagePassesCustomItem.",
-                customItem instanceof BackStagePassesCustomItem);
+        Assert.assertTrue("Custom item expected to be instance of BackStagePassesItem.",
+                customItem instanceof BackStagePassesItem);
 
         parentItem = new Item(GildedRose.SULFURAS_ITEM, 0 ,0);
         customItem = GildedRose.initiateCustomItemFromParent(parentItem);
-        Assert.assertTrue("Custom item expected to be instance of SulfurasCustomItem.",
-                customItem instanceof SulfurasCustomItem);
+        Assert.assertTrue("Custom item expected to be instance of SulfurasItem.",
+                customItem instanceof SulfurasItem);
 
         parentItem = new Item("Elixir of the Mongoose", 0 ,0);
         customItem = GildedRose.initiateCustomItemFromParent(parentItem);
-        Assert.assertTrue("Custom item expected to be instance of OtherCustomItem.",
-                customItem instanceof OtherCustomItem);
+        Assert.assertTrue("Custom item expected to be instance of OtherItem.",
+                customItem instanceof OtherItem);
+
+        parentItem = new Item("Conjured", 0 ,0);
+        customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        Assert.assertTrue("Custom item expected to be instance of ConjuredItem.",
+                customItem instanceof ConjuredItem);
     }
 
     @Test

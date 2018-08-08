@@ -5,14 +5,14 @@ import com.gildedrose.Item;
 /**
  * Created by Giedrius on 2018-08-08.
  */
-public class BackStagePassesCustomItem extends Item implements CustomItem {
+public class BackStagePassesItem extends Item implements CustomItem {
 
     private static final int MAX_QUALITY_VALUE = 50;
     private static final int QUALITY_VALUE_AFTER_THE_CONCERT = 0;
     private static final int FIRST_SELL_INN_THRESHOLD_FOR_QUALITY_INCREASE = 11;
     private static final int SECOND_SELL_INN_THRESHOLD_FOR_QUALITY_INCREASE = 6;
 
-    public BackStagePassesCustomItem(String name, int sellIn, int quality) {
+    public BackStagePassesItem(String name, int sellIn, int quality) {
         super(name, sellIn, quality);
     }
 
