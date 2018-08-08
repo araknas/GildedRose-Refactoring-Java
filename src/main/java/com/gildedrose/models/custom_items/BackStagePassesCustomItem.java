@@ -7,6 +7,11 @@ import com.gildedrose.Item;
  */
 public class BackStagePassesCustomItem extends Item implements CustomItem {
 
+    private static final int MAX_QUALITY_VALUE = 50;
+    private static final int QUALITY_VALUE_AFTER_THE_CONCERT = 0;
+    private static final int FIRST_SELL_INN_THRESHOLD_FOR_QUALITY_INCREASE = 11;
+    private static final int SECOND_SELL_INN_THRESHOLD_FOR_QUALITY_INCREASE = 6;
+
     public BackStagePassesCustomItem(String name, int sellIn, int quality) {
         super(name, sellIn, quality);
     }
@@ -17,37 +22,21 @@ public class BackStagePassesCustomItem extends Item implements CustomItem {
         int quality = super.quality;
         int sellIn = super.sellIn;
 
-        //- The Quality of an item is never more than 50
-        if (quality < 50) {
-            // - "Aged Brie" actually increases in Quality the older it gets
-            // - "Backstage passes", like aged brie, increases in Quality as its SellIn value approaches;
+        if (quality < MAX_QUALITY_VALUE) {
             quality++;
 
-            // For Backstage passes Quality increases by 2 when there are 10 days or less
-            if (sellIn < 11) {
-                //- The Quality of an item is never more than 50
-                if (quality < 50) {
-                    // - Second quality increase for Backstage passes
-                    quality++;
-                }
+            if (sellIn < FIRST_SELL_INN_THRESHOLD_FOR_QUALITY_INCREASE && quality < MAX_QUALITY_VALUE) {
+                quality++;
             }
-            // - For Backstage passes Quality increases by 3 when there are 5 days or less
-            if (sellIn < 6) {
-                // - The Quality of an item is never more than 50
-                if (quality < 50) {
-                    // - Third quality increase for Backstage passes
-                    quality++;
-                }
+            if (sellIn < SECOND_SELL_INN_THRESHOLD_FOR_QUALITY_INCREASE && quality < MAX_QUALITY_VALUE) {
+                quality++;
             }
         }
 
-        // - Regular sellIn decrease
         sellIn--;
 
-        // - Once the sell by date has passed, Quality degrades twice as fast
         if (sellIn < 0) {
-            // - For Backstage passes Quality drops to 0 after the concert
-            quality = 0;
+            quality = QUALITY_VALUE_AFTER_THE_CONCERT;
         }
 
         super.sellIn = sellIn;

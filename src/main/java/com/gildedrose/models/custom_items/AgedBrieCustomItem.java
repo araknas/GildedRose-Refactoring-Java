@@ -7,6 +7,8 @@ import com.gildedrose.Item;
  */
 public class AgedBrieCustomItem extends Item implements CustomItem {
 
+    private static final int MAX_QUALITY_VALUE = 50;
+
     public AgedBrieCustomItem(String name, int sellIn, int quality) {
         super(name, sellIn, quality);
     }
@@ -16,22 +18,14 @@ public class AgedBrieCustomItem extends Item implements CustomItem {
         int quality = super.quality;
         int sellIn = super.sellIn;
 
-        if (quality < 50) {
-            // - "Aged Brie" actually increases in Quality the older it gets
-            // - "Backstage passes", like aged brie, increases in Quality as its SellIn value approaches;
+        if (quality < MAX_QUALITY_VALUE) {
             quality++;
         }
 
-        // - Regular sellIn decrease
         sellIn--;
 
-        if (sellIn < 0) {
-
-            //- The Quality of an item is never more than 50
-            if (quality < 50) {
-                // - Once the sell by date has passed, Quality increase twice as fast (only for Aged Brie)
-                quality++;
-            }
+        if (sellIn < 0 && quality < MAX_QUALITY_VALUE) {
+            quality++;
         }
 
         super.sellIn = sellIn;

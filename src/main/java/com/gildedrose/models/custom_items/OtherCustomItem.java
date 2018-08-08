@@ -7,6 +7,8 @@ import com.gildedrose.Item;
  */
 public class OtherCustomItem extends Item implements CustomItem {
 
+    private static final int MIN_QUALITY_VALUE = 0;
+
     public OtherCustomItem(String name, int sellIn, int quality) {
         super(name, sellIn, quality);
     }
@@ -16,22 +18,14 @@ public class OtherCustomItem extends Item implements CustomItem {
         int quality = super.quality;
         int sellIn = super.sellIn;
 
-        //- The Quality of an item is never negative
-        if (quality > 0) {
-            //- Regular quality decrease
+        if (quality > MIN_QUALITY_VALUE) {
             quality--;
         }
 
-        // - Regular sellIn decrease
         sellIn--;
 
-        // - Once the sell by date has passed, Quality degrades twice as fast
-        if (sellIn < 0) {
-            //- The Quality of an item is never negative
-            if (quality > 0) {
-                //- Once the sell by date has passed, Quality degrades twice as fast (second decrease)
-                quality--;
-            }
+        if (sellIn < 0 && quality > MIN_QUALITY_VALUE) {
+            quality--;
         }
 
         super.sellIn = sellIn;
