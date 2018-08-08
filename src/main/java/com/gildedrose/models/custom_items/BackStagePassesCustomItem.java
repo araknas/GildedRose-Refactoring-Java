@@ -5,9 +5,9 @@ import com.gildedrose.Item;
 /**
  * Created by Giedrius on 2018-08-08.
  */
-public class BackStagePassesItem extends Item implements ItemBehaviour {
+public class BackStagePassesCustomItem extends Item implements CustomItem {
 
-    public BackStagePassesItem(String name, int sellIn, int quality) {
+    public BackStagePassesCustomItem(String name, int sellIn, int quality) {
         super(name, sellIn, quality);
     }
 

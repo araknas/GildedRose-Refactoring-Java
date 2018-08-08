@@ -5,9 +5,9 @@ import com.gildedrose.Item;
 /**
  * Created by Giedrius on 2018-08-08.
  */
-public class OtherItem extends Item implements ItemBehaviour {
+public class OtherCustomItem extends Item implements CustomItem {
 
-    public OtherItem(String name, int sellIn, int quality) {
+    public OtherCustomItem(String name, int sellIn, int quality) {
         super(name, sellIn, quality);
     }
 

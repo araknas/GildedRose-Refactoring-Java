@@ -1,9 +1,7 @@
 package com.gildedrose;
 
-import com.gildedrose.models.custom_items.AgedBrieItem;
-import com.gildedrose.models.custom_items.BackStagePassesItem;
-import com.gildedrose.models.custom_items.OtherItem;
-import com.gildedrose.models.custom_items.SulfurasItem;
+import com.gildedrose.models.custom_items.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,10 +9,11 @@ import static org.junit.Assert.assertEquals;
 
 public class GildedRoseTest {
 
-    AgedBrieItem agedBrieItem = null;
-    BackStagePassesItem backStagePassesItem = null;
-    SulfurasItem sulfurasItem = null;
-    OtherItem otherItem = null;
+    AgedBrieCustomItem agedBrieItem = null;
+    BackStagePassesCustomItem backStagePassesItem = null;
+    SulfurasCustomItem sulfurasItem = null;
+    OtherCustomItem otherItem = null;
+    Item parentItem = null;
 
     @Before
     public void setUp(){
@@ -22,10 +21,10 @@ public class GildedRoseTest {
 
     @Test
     public void testCustomItemsInitiation() throws Exception{
-        agedBrieItem = new AgedBrieItem(GildedRose.AGED_BRIE_ITEM, 0 ,0);
-        backStagePassesItem = new BackStagePassesItem(GildedRose.BACKSTAGE_PASSES_ITEM, 0 ,0);
-        sulfurasItem = new SulfurasItem(GildedRose.SULFURAS_ITEM, 0 ,0);
-        otherItem = new OtherItem("Elixir of the Mongoose", 0 ,0);
+        agedBrieItem = new AgedBrieCustomItem(GildedRose.AGED_BRIE_ITEM, 0 ,0);
+        backStagePassesItem = new BackStagePassesCustomItem(GildedRose.BACKSTAGE_PASSES_ITEM, 0 ,0);
+        sulfurasItem = new SulfurasCustomItem(GildedRose.SULFURAS_ITEM, 0 ,0);
+        otherItem = new OtherCustomItem("Elixir of the Mongoose", 0 ,0);
 
         assertEquals("Aged Brie", agedBrieItem.name);
         assertEquals("Backstage passes to a TAFKAL80ETC concert", backStagePassesItem.name);
@@ -35,7 +34,7 @@ public class GildedRoseTest {
     @Test
      public void testAgedBrieItemValuesRecalculation() throws Exception{
 
-        agedBrieItem = new AgedBrieItem(GildedRose.AGED_BRIE_ITEM, 2, 0);
+        agedBrieItem = new AgedBrieCustomItem(GildedRose.AGED_BRIE_ITEM, 2, 0);
         agedBrieItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -52,7 +51,7 @@ public class GildedRoseTest {
     @Test
     public void testBackStagePassesItemValuesRecalculation() throws Exception{
 
-        backStagePassesItem = new BackStagePassesItem(GildedRose.BACKSTAGE_PASSES_ITEM, 15, 20);
+        backStagePassesItem = new BackStagePassesCustomItem(GildedRose.BACKSTAGE_PASSES_ITEM, 15, 20);
         backStagePassesItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -69,7 +68,7 @@ public class GildedRoseTest {
     @Test
     public void testSulfurasItemValuesRecalculation() throws Exception{
 
-        sulfurasItem = new SulfurasItem(GildedRose.SULFURAS_ITEM, 0, 80);
+        sulfurasItem = new SulfurasCustomItem(GildedRose.SULFURAS_ITEM, 0, 80);
         sulfurasItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -86,7 +85,7 @@ public class GildedRoseTest {
     @Test
     public void testOtherItemValuesRecalculation() throws Exception{
 
-        otherItem = new OtherItem("Elixir of the Mongoose", 5, 7);
+        otherItem = new OtherCustomItem("Elixir of the Mongoose", 5, 7);
         otherItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -98,6 +97,31 @@ public class GildedRoseTest {
 
         assertEquals("After one day Sulfuras item sell inn value is incorrect.", expectedSellIn, currentSellIn);
         assertEquals("After one day Sulfuras item quality value is incorrect.", expectedQuality, currentQuality);
+    }
+
+    @Test
+    public void testCustomItemInitiationFromParentItem() throws Exception{
+
+        parentItem = new Item(GildedRose.AGED_BRIE_ITEM, 0 ,0);
+        CustomItem customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        Assert.assertNotNull("Custom item cannot be null.", customItem);
+        Assert.assertTrue("Custom item expected to be instance of AgedBrieCustomItem.",
+                customItem instanceof AgedBrieCustomItem);
+
+        parentItem = new Item(GildedRose.BACKSTAGE_PASSES_ITEM, 0 ,0);
+        customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        Assert.assertTrue("Custom item expected to be instance of BackStagePassesCustomItem.",
+                customItem instanceof BackStagePassesCustomItem);
+
+        parentItem = new Item(GildedRose.SULFURAS_ITEM, 0 ,0);
+        customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        Assert.assertTrue("Custom item expected to be instance of SulfurasCustomItem.",
+                customItem instanceof SulfurasCustomItem);
+
+        parentItem = new Item("Elixir of the Mongoose", 0 ,0);
+        customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        Assert.assertTrue("Custom item expected to be instance of OtherCustomItem.",
+                customItem instanceof OtherCustomItem);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import com.gildedrose.models.custom_items.*;
+
 class GildedRose {
 
     public static final String AGED_BRIE_ITEM = "Aged Brie";
@@ -89,5 +91,31 @@ class GildedRose {
             currentItem.sellIn = sellIn;
         }
 
+    }
+
+    public static CustomItem initiateCustomItemFromParent(Item parentItem) {
+
+        CustomItem customItem = null;
+        try{
+            String itemName = parentItem.name;
+            switch (itemName){
+                case AGED_BRIE_ITEM:
+                    customItem = new AgedBrieCustomItem(parentItem.name, parentItem.sellIn, parentItem.quality);
+                    break;
+                case BACKSTAGE_PASSES_ITEM:
+                    customItem = new BackStagePassesCustomItem(parentItem.name, parentItem.sellIn, parentItem.quality);
+                    break;
+                case SULFURAS_ITEM:
+                    customItem = new SulfurasCustomItem(parentItem.name, parentItem.sellIn, parentItem.quality);
+                    break;
+                default:
+                    customItem = new OtherCustomItem(parentItem.name, parentItem.sellIn, parentItem.quality);
+                    break;
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return customItem;
     }
 }
