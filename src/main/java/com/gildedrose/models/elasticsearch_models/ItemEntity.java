@@ -12,9 +12,9 @@ public class ItemEntity {
 
     @Id
     private String id;
-    public String name;
-    public int sellIn;
-    public int quality;
+    private String name;
+    private int sellIn;
+    private int quality;
 
     public ItemEntity(String id, String name, int sellIn, int quality) {
         this.id = id;

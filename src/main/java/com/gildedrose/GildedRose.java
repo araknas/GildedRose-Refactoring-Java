@@ -1,6 +1,9 @@
 package com.gildedrose;
 
 import com.gildedrose.models.custom_items.*;
+import com.gildedrose.models.elasticsearch_models.ItemEntity;
+
+import java.util.List;
 
 class GildedRose {
 
@@ -15,16 +18,35 @@ class GildedRose {
         this.items = items;
     }
 
+    public GildedRose() {
+    }
+
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            Item currentItem = items[i];
+        if(items != null){
+            for (int i = 0; i < items.length; i++) {
+                Item currentItem = items[i];
 
-            CustomItem customItem = initiateCustomItemFromParent(currentItem);
-            customItem.recalculateItemValuesAfterOneDay();
+                CustomItem customItem = initiateCustomItemFromParent(currentItem);
+                customItem.recalculateItemValuesAfterOneDay();
 
-            currentItem.sellIn = customItem.getSellInn();
-            currentItem.quality = customItem.getQuality();
+                currentItem.sellIn = customItem.getSellInn();
+                currentItem.quality = customItem.getQuality();
+            }
         }
+    }
+
+    public List<ItemEntity> updateQuality(List<ItemEntity> items) {
+
+        if(items != null){
+            for (ItemEntity currentItem : items) {
+                CustomItem customItem = initiateCustomItemFromParentEntity(currentItem);
+                customItem.recalculateItemValuesAfterOneDay();
+
+                currentItem.setSellIn(customItem.getSellInn());
+                currentItem.setQuality(customItem.getQuality());
+            }
+        }
+        return items;
     }
 
     public static CustomItem initiateCustomItemFromParent(Item parentItem) {
@@ -47,6 +69,34 @@ class GildedRose {
                     break;
                 default:
                     customItem = new OtherItem(parentItem.name, parentItem.sellIn, parentItem.quality);
+                    break;
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return customItem;
+    }
+
+    private CustomItem initiateCustomItemFromParentEntity(ItemEntity parentItem) {
+        CustomItem customItem = null;
+        try{
+            String itemName = parentItem.getName();
+            switch (itemName){
+                case AGED_BRIE_ITEM:
+                    customItem = new AgedBrieItem(parentItem.getName(), parentItem.getSellIn(), parentItem.getQuality());
+                    break;
+                case BACKSTAGE_PASSES_ITEM:
+                    customItem = new BackStagePassesItem(parentItem.getName(), parentItem.getSellIn(), parentItem.getQuality());
+                    break;
+                case SULFURAS_ITEM:
+                    customItem = new SulfurasItem(parentItem.getName(), parentItem.getSellIn(), parentItem.getQuality());
+                    break;
+                case CONJURED_ITEM:
+                    customItem = new ConjuredItem(parentItem.getName(), parentItem.getSellIn(), parentItem.getQuality());
+                    break;
+                default:
+                    customItem = new OtherItem(parentItem.getName(), parentItem.getSellIn(), parentItem.getQuality());
                     break;
             }
         }

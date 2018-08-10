@@ -22,6 +22,8 @@ public class GildedRoseMain implements CommandLineRunner {
 
     @Autowired
     private ElasticsearchOperations es;
+    @Autowired
+    private GildedRoseUpdateService gildedRoseUpdateService;
 
     public static void main(String args[]) {
         SpringApplication.run(GildedRoseMain.class, args);
@@ -31,6 +33,7 @@ public class GildedRoseMain implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         logger.info("Started GildedRose Spring Boot Application.");
+        gildedRoseUpdateService.initiateGildedRoseUpdateService();
         printElasticSearchInfo();
     }
 

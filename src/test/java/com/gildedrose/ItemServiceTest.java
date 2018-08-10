@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,6 +50,23 @@ public class ItemServiceTest {
         Assert.assertEquals(itemEntity.getName(), itemEntityTest.getName());
         Assert.assertEquals(itemEntity.getSellIn(), itemEntityTest.getSellIn());
         Assert.assertEquals(itemEntity.getQuality(), itemEntityTest.getQuality());
+    }
+
+    @Test
+    public void testItemSaveSeveral() {
+
+        List<ItemEntity> list = new ArrayList<>();
+        list.add(new ItemEntity("1", GildedRose.AGED_BRIE_ITEM, 1, 2));
+        list.add(new ItemEntity("2", GildedRose.AGED_BRIE_ITEM, 1, 2));
+        list.add(new ItemEntity("3", GildedRose.AGED_BRIE_ITEM, 1, 2));
+        list.add(new ItemEntity("4", GildedRose.AGED_BRIE_ITEM, 1, 2));
+
+        itemService.save(list);
+
+        List<ItemEntity> newItems = itemService.findAll();
+
+        Assert.assertNotNull(newItems);
+        Assert.assertTrue("Expected items list size is equal to 4.", newItems.size() == 4);
     }
 
     @Test

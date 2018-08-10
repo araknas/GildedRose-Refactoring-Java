@@ -23,6 +23,14 @@ public class ItemServiceElasticsearchImpl implements ItemService {
     }
 
     @Override
+    public void save(List<ItemEntity> itemEntities) {
+        if(itemEntities != null && itemEntities.size() > 0){
+            Iterable<ItemEntity> iterableList = itemEntities;
+            itemElasticsearchRepository.save(iterableList);
+        }
+    }
+
+    @Override
     public void delete(ItemEntity itemEntity) {
         itemElasticsearchRepository.delete(itemEntity);
     }
@@ -33,7 +41,8 @@ public class ItemServiceElasticsearchImpl implements ItemService {
     }
 
     @Override
-    public List<ItemEntity> findAll() {
+    public List<ItemEntity> findAll()
+    {
         return Lists.newArrayList(itemElasticsearchRepository.findAll());
     }
 

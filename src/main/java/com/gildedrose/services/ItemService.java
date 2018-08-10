@@ -11,6 +11,8 @@ public interface ItemService {
 
     ItemEntity save(ItemEntity itemEntity);
 
+    void save(List<ItemEntity> itemEntities);
+
     void delete(ItemEntity itemEntity);
 
     ItemEntity findOne(String id);
