@@ -42,6 +42,28 @@ public class GildedRoseRestControllerTest {
         Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
+    @Test
+    public void testListAllItemsJsonResponse() throws Exception{
+
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/items"),
+                HttpMethod.GET, entity, String.class);
+        String expectedOutput = "{\"total\":0,\"data\":[],\"message\":\"OK\",\"status\":200}";
+        Assert.assertEquals("Json response for all items is not acceptable.", expectedOutput, response.getBody());
+    }
+
+    @Test
+    public void testGetItemByIdJsonResponse() throws Exception{
+
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/items/1"),
+                HttpMethod.GET, entity, String.class);
+        String expectedOutput = "{\"total\":0,\"data\":[],\"message\":\"Not Found\",\"status\":404}";
+        Assert.assertEquals("Json response for item by id is not acceptable.", expectedOutput, response.getBody());
+    }
+
     private String createURLWithPort(String uri) {
         return "http://localhost:" + port + uri;
     }

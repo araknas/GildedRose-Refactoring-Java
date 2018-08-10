@@ -2,6 +2,7 @@ package com.gildedrose.services;
 
 import com.gildedrose.models.elasticsearch_models.ItemEntity;
 import com.gildedrose.repositories.ItemElasticsearchRepository;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class ItemServiceElasticsearchImpl implements ItemService {
 
     @Override
     public List<ItemEntity> findAll() {
-        return itemElasticsearchRepository.findAll();
+        return Lists.newArrayList(itemElasticsearchRepository.findAll());
     }
 
     @Override

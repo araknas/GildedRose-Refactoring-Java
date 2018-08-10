@@ -36,11 +36,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
-
+        <!--jna is for embedded ES-->
         <dependency>
             <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <scope>runtime</scope>
+            <artifactId>jna-platform</artifactId>
+            <version>4.0.0</version>
         </dependency>
 
         <dependency>
@@ -55,7 +55,6 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>

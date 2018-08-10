@@ -9,24 +9,42 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+        "id",
         "name",
         "sellIn",
         "quality"
 })
 public class GildedRoseJsonDataItem implements JsonDataItem{
 
+    @JsonProperty("id")
+    private String id;
     @JsonProperty("name")
-    private Integer name;
+    private String name;
     @JsonProperty("sellIn")
     private Integer sellIn;
     @JsonProperty("quality")
-    private String quality;
+    private Integer quality;
 
-    public Integer getName() {
+    public GildedRoseJsonDataItem(String id, String name, Integer sellIn, Integer quality) {
+        this.id = id;
+        this.name = name;
+        this.sellIn = sellIn;
+        this.quality = quality;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public void setName(Integer name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -38,11 +56,11 @@ public class GildedRoseJsonDataItem implements JsonDataItem{
         this.sellIn = sellIn;
     }
 
-    public String getQuality() {
+    public Integer getQuality() {
         return quality;
     }
 
-    public void setQuality(String quality) {
+    public void setQuality(Integer quality) {
         this.quality = quality;
     }
 }

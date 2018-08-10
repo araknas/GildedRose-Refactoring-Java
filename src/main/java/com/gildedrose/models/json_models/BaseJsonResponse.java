@@ -3,6 +3,7 @@ package com.gildedrose.models.json_models;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -14,7 +15,8 @@ import java.util.List;
 @JsonPropertyOrder({
         "total",
         "data",
-        "success"
+        "status:",
+        "message"
 })
 public class BaseJsonResponse {
 
@@ -22,8 +24,10 @@ public class BaseJsonResponse {
     private Integer total;
     @JsonProperty("data")
     private List<JsonDataItem> data = null;
-    @JsonProperty("success")
-    private Boolean success;
+    @JsonProperty("status")
+    private Integer status = HttpStatus.OK.value();
+    @JsonProperty("message")
+    private String message = "";
 
     public Integer getTotal() {
         return total;
@@ -41,11 +45,19 @@ public class BaseJsonResponse {
         this.data = data;
     }
 
-    public Boolean getSuccess() {
-        return success;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setSuccess(Boolean success) {
-        this.success = success;
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

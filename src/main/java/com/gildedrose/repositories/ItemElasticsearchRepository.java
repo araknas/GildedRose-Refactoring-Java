@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface ItemElasticsearchRepository extends ElasticsearchRepository<ItemEntity, String> {
 
-    List<ItemEntity> findAll();
+    Iterable<ItemEntity> findAll();
     ItemEntity findOne(String id);
     List<ItemEntity> findByName(String name);
 }
