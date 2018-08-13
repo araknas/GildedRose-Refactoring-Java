@@ -26,8 +26,8 @@ import java.util.concurrent.Executors;
 public class GildedRoseUpdateService {
 
     public static final String AGED_BRIE_ITEM = "Aged Brie";
-    public static final String BACKSTAGE_PASSES_ITEM = "Backstage passes to a TAFKAL80ETC concert";
-    public static final String SULFURAS_ITEM = "Sulfuras, Hand of Ragnaros";
+    public static final String BACKSTAGE_PASSES_ITEM = "Backstage passes";
+    public static final String SULFURAS_ITEM = "Sulfuras";
     public static final String CONJURED_ITEM = "Conjured";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

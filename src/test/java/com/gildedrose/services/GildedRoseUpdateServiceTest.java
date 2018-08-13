@@ -48,11 +48,11 @@ public class GildedRoseUpdateServiceTest {
         otherItem = new OtherItem("Elixir of the Mongoose", 0 ,0);
         conjuredItem = new ConjuredItem(GildedRoseUpdateService.CONJURED_ITEM, 0 ,0);
 
-        assertEquals("Aged Brie", agedBrieItem.name);
-        assertEquals("Backstage passes to a TAFKAL80ETC concert", backStagePassesItem.name);
-        assertEquals("Sulfuras, Hand of Ragnaros", sulfurasItem.name);
+        assertEquals(GildedRoseUpdateService.AGED_BRIE_ITEM, agedBrieItem.name);
+        assertEquals(GildedRoseUpdateService.BACKSTAGE_PASSES_ITEM, backStagePassesItem.name);
+        assertEquals(GildedRoseUpdateService.SULFURAS_ITEM, sulfurasItem.name);
         assertEquals("Elixir of the Mongoose", otherItem.name);
-        assertEquals("Conjured", conjuredItem.name);
+        assertEquals(GildedRoseUpdateService.CONJURED_ITEM, conjuredItem.name);
     }
     @Test
      public void testAgedBrieItemValuesRecalculation() throws Exception{

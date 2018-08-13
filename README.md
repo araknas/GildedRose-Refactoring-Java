@@ -14,7 +14,7 @@
 
     NOTE: GildedRoseUpdateService class now has two updateQuality methods:
     void updateQuality() is for the Items[] which have no id property and won't be saved into the database;
-    List<ItemEntity> updateQuality(List<ItemEntity> items) is for the items which are passed with the method.
+    List < ItemEntity > updateQuality(List < ItemEntity > items) is for the items which are passed with the method.
     The method returns items for the further work associated with the database.
     Ideally I would remake the original Item class and avoid this duplicate code but in the REFACTORING assignment
     it was said that the Item class cannot be changed so I created a new one, named it ItemEntity and used it
