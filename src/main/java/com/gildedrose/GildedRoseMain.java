@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
+import javax.annotation.PreDestroy;
 import java.util.Map;
 
 /**
@@ -36,6 +37,11 @@ public class GildedRoseMain implements CommandLineRunner {
         logger.info("Started GildedRose Spring Boot Application.");
         gildedRoseUpdateSchedulerService.initiateGildedRoseUpdateService();
         printElasticSearchInfo();
+    }
+
+    @PreDestroy
+    public void onExit() {
+        logger.info("Stopping GildedRose Spring Boot Application.");
     }
 
     private void printElasticSearchInfo() {

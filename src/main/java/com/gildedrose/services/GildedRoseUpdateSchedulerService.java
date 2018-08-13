@@ -25,6 +25,9 @@ public class GildedRoseUpdateSchedulerService {
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    GildedRose gildedRoseService;
+
     public void initiateGildedRoseUpdateService() {
         try{
             logger.info("Initiating GildedRoseUpdateService.");
@@ -81,10 +84,15 @@ public class GildedRoseUpdateSchedulerService {
 
     private void manageTask() {
         try{
+            logger.info("Fetching items for the daily update.");
             List<ItemEntity> items = itemService.findAll();
-            GildedRose gildedRose = new GildedRose();
-            List<ItemEntity> updatedItems = gildedRose.updateQuality(items);
-            itemService.save(updatedItems);
+            if(items != null && items.size() > 0){
+                List<ItemEntity> updatedItems = gildedRoseService.updateQuality(items);
+                itemService.save(updatedItems);
+            }
+            else{
+                logger.info("No items were found.");
+            }
         }
         catch (Exception e){
             logger.error("Exception updating GildedRose items, e = " + e.getMessage(), e);
