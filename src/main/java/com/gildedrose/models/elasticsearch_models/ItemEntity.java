@@ -16,8 +16,7 @@ public class ItemEntity {
     private int sellIn;
     private int quality;
 
-    public ItemEntity(String id, String name, int sellIn, int quality) {
-        this.id = id;
+    public ItemEntity(String name, int sellIn, int quality) {
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;

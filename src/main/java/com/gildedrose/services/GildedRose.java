@@ -50,9 +50,9 @@ public class GildedRose {
 
                 for (int i = 0; i < items.length; i++) {
                     Item item = items[i];
-                    serviceRunner.execute(new UpdateTaskHandler(item, latch));
+                    serviceRunner.execute(() -> handleUpdateTask(item, latch));
                 }
-                logger.info("Waiting for items to be updated (updating " + items.length + " item(s)");
+                logger.info("Waiting for items to be updated (updating " + items.length + " item(s))");
                 latch.await();
                 logger.info("Finished updating items.");
             }
@@ -67,9 +67,9 @@ public class GildedRose {
             if(items != null){
                 CountDownLatch latch = new CountDownLatch(items.size());
                 for (ItemEntity item : items) {
-                    serviceRunner.execute(new UpdateTaskHandler(item, latch));
+                    serviceRunner.execute(() -> handleUpdateTask(item, latch));
                 }
-                logger.info("Waiting for items to be updated (updating " + items.size() + " item(s)");
+                logger.info("Waiting for items to be updated (updating " + items.size() + " item(s))");
                 latch.await();
                 logger.info("Finished updating items.");
             }
@@ -80,36 +80,10 @@ public class GildedRose {
         return items;
     }
 
-    class UpdateTaskHandler implements Runnable {
-
-        Item item;
-        ItemEntity itemEntity;
-
-        CountDownLatch latch;
-
-        UpdateTaskHandler(Item item, CountDownLatch latch) {
-            this.item = item;
-            this.latch = latch;
-        }
-        UpdateTaskHandler(ItemEntity item, CountDownLatch latch) {
-            this.itemEntity = item;
-            this.latch = latch;
-        }
-
-        public void run() {
-            if(item != null){
-                handleUpdateTask(this.item, latch);
-            }
-            else if(itemEntity != null){
-                handleUpdateTask(this.itemEntity, latch);
-            }
-        }
-    }
-
     private void handleUpdateTask(Item item, CountDownLatch latch) {
         try{
             CustomItem customItem = identifyCustomItem(item);
-            logger.info("Update item: " +  (item != null ? item.toString() : ""));
+            logger.info("Updating an item with values: " +  (item != null ? item.toString() : ""));
             customItem.recalculateItemValuesAfterOneDay();
             item.sellIn = customItem.getSellInn();
             item.quality = customItem.getQuality();
@@ -118,7 +92,7 @@ public class GildedRose {
             logger.error("Exception while handling item (" + item.toString() + ") update task, e = " + e.getMessage(), e);
         }
         finally {
-            logger.info("Finishing update task for item: " +  (item != null ? item.name : ""));
+            logger.info("Finishing update task for an item: " +  (item != null ? item.name : ""));
             latch.countDown();
         }
     }
@@ -126,7 +100,7 @@ public class GildedRose {
     private void handleUpdateTask(ItemEntity item, CountDownLatch latch) {
         try{
             CustomItem customItem = identifyCustomItem(item);
-            logger.info("Update item: " +  (item != null ? item.toString() : ""));
+            logger.info("Updating an item with values: " +  (item != null ? item.toString() : ""));
             customItem.recalculateItemValuesAfterOneDay();
             item.setSellIn(customItem.getSellInn());
             item.setQuality(customItem.getQuality());
@@ -135,7 +109,7 @@ public class GildedRose {
             logger.error("Exception while handling item (" + item.toString() + ") update task, e = " + e.getMessage(), e);
         }
         finally {
-            logger.info("Finishing update task for item: " + (item != null ? item.getName() : ""));
+            logger.info("Finishing update task for an item: " + (item != null ? item.getName() : ""));
             latch.countDown();
         }
     }

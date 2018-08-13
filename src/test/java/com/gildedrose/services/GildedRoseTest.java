@@ -3,6 +3,7 @@ package com.gildedrose.services;
 import com.gildedrose.GildedRoseMain;
 import com.gildedrose.models.Item;
 import com.gildedrose.models.custom_items.*;
+import com.gildedrose.models.elasticsearch_models.ItemEntity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +36,7 @@ public class GildedRoseTest {
     }
 
     @Test
-    public void testItemServiceInit(){
+    public void testGildedRoseServiceInit(){
         Assert.assertNotNull("failed initiating GildedRose (as service) bean", gildedRoseAsService);
     }
 
@@ -183,6 +187,29 @@ public class GildedRoseTest {
         customItem.setQuality(20);
         Assert.assertEquals("Custom item's setter sets wrong sell inn value.", customItem.getSellInn(), 10);
         Assert.assertEquals("Custom item's setter sets wrong quality value.", customItem.getQuality(), 20);
+    }
+
+    @Test
+    public void testGildedRoseAsyncUpdate() throws Exception{
+
+        List<ItemEntity> list = new ArrayList<>();
+        list.add(new ItemEntity(GildedRose.BACKSTAGE_PASSES_ITEM, 15, 20));
+        list.add(new ItemEntity(GildedRose.BACKSTAGE_PASSES_ITEM, 10, 49));
+        list.add(new ItemEntity(GildedRose.BACKSTAGE_PASSES_ITEM, 5, 49));
+
+        List<ItemEntity> updatedList = gildedRoseAsService.updateQuality(list);
+        Assert.assertNotNull(updatedList);
+        Assert.assertEquals("Updated list size is incorrect", 3, updatedList.size());
+
+        // NOTE: correct values are taken from the golden_output.txt
+        Assert.assertEquals("Updated item sell in value is incorrect", 14, updatedList.get(0).getSellIn());
+        Assert.assertEquals("Updated item quality value is incorrect", 21, updatedList.get(0).getQuality());
+
+        Assert.assertEquals("Updated item sell in value is incorrect", 9, updatedList.get(1).getSellIn());
+        Assert.assertEquals("Updated item quality value is incorrect", 50, updatedList.get(1).getQuality());
+
+        Assert.assertEquals("Updated item sell in value is incorrect", 4, updatedList.get(2).getSellIn());
+        Assert.assertEquals("Updated item quality value is incorrect", 50, updatedList.get(2).getQuality());
     }
 
 }
