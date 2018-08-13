@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GildedRoseMain.class)
-public class GildedRoseTest {
+public class GildedRoseUpdateServiceTest {
 
     AgedBrieItem agedBrieItem = null;
     BackStagePassesItem backStagePassesItem = null;
@@ -29,7 +29,7 @@ public class GildedRoseTest {
     Item parentItem = null;
 
     @Autowired
-    GildedRose gildedRoseAsService;
+    GildedRoseUpdateService gildedRoseUpdateService;
 
     @Before
     public void setUp(){
@@ -37,16 +37,16 @@ public class GildedRoseTest {
 
     @Test
     public void testGildedRoseServiceInit(){
-        Assert.assertNotNull("failed initiating GildedRose (as service) bean", gildedRoseAsService);
+        Assert.assertNotNull("failed initiating GildedRose (as service) bean", gildedRoseUpdateService);
     }
 
     @Test
     public void testCustomItemsInitiation() throws Exception{
-        agedBrieItem = new AgedBrieItem(GildedRose.AGED_BRIE_ITEM, 0 ,0);
-        backStagePassesItem = new BackStagePassesItem(GildedRose.BACKSTAGE_PASSES_ITEM, 0 ,0);
-        sulfurasItem = new SulfurasItem(GildedRose.SULFURAS_ITEM, 0 ,0);
+        agedBrieItem = new AgedBrieItem(GildedRoseUpdateService.AGED_BRIE_ITEM, 0 ,0);
+        backStagePassesItem = new BackStagePassesItem(GildedRoseUpdateService.BACKSTAGE_PASSES_ITEM, 0 ,0);
+        sulfurasItem = new SulfurasItem(GildedRoseUpdateService.SULFURAS_ITEM, 0 ,0);
         otherItem = new OtherItem("Elixir of the Mongoose", 0 ,0);
-        conjuredItem = new ConjuredItem(GildedRose.CONJURED_ITEM, 0 ,0);
+        conjuredItem = new ConjuredItem(GildedRoseUpdateService.CONJURED_ITEM, 0 ,0);
 
         assertEquals("Aged Brie", agedBrieItem.name);
         assertEquals("Backstage passes to a TAFKAL80ETC concert", backStagePassesItem.name);
@@ -57,7 +57,7 @@ public class GildedRoseTest {
     @Test
      public void testAgedBrieItemValuesRecalculation() throws Exception{
 
-        agedBrieItem = new AgedBrieItem(GildedRose.AGED_BRIE_ITEM, 2, 0);
+        agedBrieItem = new AgedBrieItem(GildedRoseUpdateService.AGED_BRIE_ITEM, 2, 0);
         agedBrieItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -74,7 +74,7 @@ public class GildedRoseTest {
     @Test
     public void testBackStagePassesItemValuesRecalculation() throws Exception{
 
-        backStagePassesItem = new BackStagePassesItem(GildedRose.BACKSTAGE_PASSES_ITEM, 15, 20);
+        backStagePassesItem = new BackStagePassesItem(GildedRoseUpdateService.BACKSTAGE_PASSES_ITEM, 15, 20);
         backStagePassesItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -91,7 +91,7 @@ public class GildedRoseTest {
     @Test
     public void testSulfurasItemValuesRecalculation() throws Exception{
 
-        sulfurasItem = new SulfurasItem(GildedRose.SULFURAS_ITEM, 0, 80);
+        sulfurasItem = new SulfurasItem(GildedRoseUpdateService.SULFURAS_ITEM, 0, 80);
         sulfurasItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -125,7 +125,7 @@ public class GildedRoseTest {
     @Test
     public void testConjuredItemValuesRecalculation() throws Exception{
 
-        conjuredItem = new ConjuredItem(GildedRose.CONJURED_ITEM, 0, 4);
+        conjuredItem = new ConjuredItem(GildedRoseUpdateService.CONJURED_ITEM, 0, 4);
         conjuredItem.recalculateItemValuesAfterOneDay();
 
         // Values are taken form golden_output.txt
@@ -142,29 +142,29 @@ public class GildedRoseTest {
     @Test
     public void testCustomItemInitiationFromParentItem() throws Exception{
 
-        parentItem = new Item(GildedRose.AGED_BRIE_ITEM, 0 ,0);
-        CustomItem customItem = GildedRose.identifyCustomItem(parentItem);
+        parentItem = new Item(GildedRoseUpdateService.AGED_BRIE_ITEM, 0 ,0);
+        CustomItem customItem = GildedRoseUpdateService.identifyCustomItem(parentItem);
         Assert.assertNotNull("Custom item cannot be null.", customItem);
         Assert.assertTrue("Custom item expected to be instance of AgedBrieItem.",
                 customItem instanceof AgedBrieItem);
 
-        parentItem = new Item(GildedRose.BACKSTAGE_PASSES_ITEM, 0 ,0);
-        customItem = GildedRose.identifyCustomItem(parentItem);
+        parentItem = new Item(GildedRoseUpdateService.BACKSTAGE_PASSES_ITEM, 0 ,0);
+        customItem = GildedRoseUpdateService.identifyCustomItem(parentItem);
         Assert.assertTrue("Custom item expected to be instance of BackStagePassesItem.",
                 customItem instanceof BackStagePassesItem);
 
-        parentItem = new Item(GildedRose.SULFURAS_ITEM, 0 ,0);
-        customItem = GildedRose.identifyCustomItem(parentItem);
+        parentItem = new Item(GildedRoseUpdateService.SULFURAS_ITEM, 0 ,0);
+        customItem = GildedRoseUpdateService.identifyCustomItem(parentItem);
         Assert.assertTrue("Custom item expected to be instance of SulfurasItem.",
                 customItem instanceof SulfurasItem);
 
         parentItem = new Item("Elixir of the Mongoose", 0 ,0);
-        customItem = GildedRose.identifyCustomItem(parentItem);
+        customItem = GildedRoseUpdateService.identifyCustomItem(parentItem);
         Assert.assertTrue("Custom item expected to be instance of OtherItem.",
                 customItem instanceof OtherItem);
 
         parentItem = new Item("Conjured", 0 ,0);
-        customItem = GildedRose.identifyCustomItem(parentItem);
+        customItem = GildedRoseUpdateService.identifyCustomItem(parentItem);
         Assert.assertTrue("Custom item expected to be instance of ConjuredItem.",
                 customItem instanceof ConjuredItem);
     }
@@ -172,8 +172,8 @@ public class GildedRoseTest {
     @Test
     public void testCustomItemGetter() throws Exception{
 
-        parentItem = new Item(GildedRose.AGED_BRIE_ITEM, 5 ,3);
-        CustomItem customItem = GildedRose.identifyCustomItem(parentItem);
+        parentItem = new Item(GildedRoseUpdateService.AGED_BRIE_ITEM, 5 ,3);
+        CustomItem customItem = GildedRoseUpdateService.identifyCustomItem(parentItem);
         Assert.assertEquals("Custom item's getter return wrong sell inn value.", customItem.getSellInn(), 5);
         Assert.assertEquals("Custom item's getter return wrong quality value.", customItem.getQuality(), 3);
 
@@ -181,8 +181,8 @@ public class GildedRoseTest {
     @Test
     public void testCustomItemSetters() throws Exception{
 
-        parentItem = new Item(GildedRose.AGED_BRIE_ITEM, 5 ,3);
-        CustomItem customItem = GildedRose.identifyCustomItem(parentItem);
+        parentItem = new Item(GildedRoseUpdateService.AGED_BRIE_ITEM, 5 ,3);
+        CustomItem customItem = GildedRoseUpdateService.identifyCustomItem(parentItem);
         customItem.setSellInn(10);
         customItem.setQuality(20);
         Assert.assertEquals("Custom item's setter sets wrong sell inn value.", customItem.getSellInn(), 10);
@@ -193,11 +193,11 @@ public class GildedRoseTest {
     public void testGildedRoseAsyncUpdate() throws Exception{
 
         List<ItemEntity> list = new ArrayList<>();
-        list.add(new ItemEntity(GildedRose.BACKSTAGE_PASSES_ITEM, 15, 20));
-        list.add(new ItemEntity(GildedRose.BACKSTAGE_PASSES_ITEM, 10, 49));
-        list.add(new ItemEntity(GildedRose.BACKSTAGE_PASSES_ITEM, 5, 49));
+        list.add(new ItemEntity(GildedRoseUpdateService.BACKSTAGE_PASSES_ITEM, 15, 20));
+        list.add(new ItemEntity(GildedRoseUpdateService.BACKSTAGE_PASSES_ITEM, 10, 49));
+        list.add(new ItemEntity(GildedRoseUpdateService.BACKSTAGE_PASSES_ITEM, 5, 49));
 
-        List<ItemEntity> updatedList = gildedRoseAsService.updateQuality(list);
+        List<ItemEntity> updatedList = gildedRoseUpdateService.updateQuality(list);
         Assert.assertNotNull(updatedList);
         Assert.assertEquals("Updated list size is incorrect", 3, updatedList.size());
 

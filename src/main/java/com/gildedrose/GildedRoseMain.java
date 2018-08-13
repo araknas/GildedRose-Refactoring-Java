@@ -1,7 +1,9 @@
 package com.gildedrose;
 
+import com.gildedrose.models.elasticsearch_models.ItemEntity;
 import com.gildedrose.services.GildedRoseUpdateSchedulerService;
-import org.elasticsearch.client.Client;
+import com.gildedrose.services.GildedRoseUpdateService;
+import com.gildedrose.services.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
 import javax.annotation.PreDestroy;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Giedrius on 2018-08-09.
@@ -26,6 +29,8 @@ public class GildedRoseMain implements CommandLineRunner {
     private ElasticsearchOperations es;
     @Autowired
     private GildedRoseUpdateSchedulerService gildedRoseUpdateSchedulerService;
+    @Autowired
+    private ItemService itemService;
 
     public static void main(String args[]) {
         SpringApplication.run(GildedRoseMain.class, args);
@@ -35,24 +40,32 @@ public class GildedRoseMain implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         logger.info("Started GildedRose Spring Boot Application.");
+        insertInitialData();
         gildedRoseUpdateSchedulerService.initiateGildedRoseUpdateService();
-        printElasticSearchInfo();
     }
 
     @PreDestroy
     public void onExit() {
+        gildedRoseUpdateSchedulerService.stopServiceThread();
         logger.info("Stopping GildedRose Spring Boot Application.");
     }
 
-    private void printElasticSearchInfo() {
-
-        System.out.println("--ElasticSearch--");
-        Client client = es.getClient();
-        Map<String, String> asMap = client.settings().getAsMap();
-
-        asMap.forEach((k, v) -> {
-            System.out.println(k + " = " + v);
-        });
-        System.out.println("--ElasticSearch--");
+    private void insertInitialData() {
+        try{
+            long existingItemsCount = itemService.findAll().size();
+            if(existingItemsCount == 0){
+                logger.info("Inserting some initial items data...");
+                List<ItemEntity> list = new ArrayList<>();
+                list.add(new ItemEntity(GildedRoseUpdateService.SULFURAS_ITEM, 0, 80));
+                list.add(new ItemEntity(GildedRoseUpdateService.SULFURAS_ITEM, -1, 80));
+                list.add(new ItemEntity(GildedRoseUpdateService.BACKSTAGE_PASSES_ITEM, 15, 20));
+                list.add(new ItemEntity(GildedRoseUpdateService.BACKSTAGE_PASSES_ITEM, 10, 49));
+                list.add(new ItemEntity(GildedRoseUpdateService.BACKSTAGE_PASSES_ITEM, 5, 49));
+                itemService.save(list);
+            }
+        }
+        catch (Exception e){
+            logger.error("Exception while inserting initial data, e = " + e.getMessage(), e);
+        }
     }
 }

@@ -1,7 +1,7 @@
 package com.gildedrose;
 
 import com.gildedrose.models.Item;
-import com.gildedrose.services.GildedRose;
+import com.gildedrose.services.GildedRoseUpdateService;
 
 public class TexttestFixture {
     public static void main(String[] args) {
@@ -19,7 +19,7 @@ public class TexttestFixture {
                 // this conjured item does not work properly yet
                 new Item("Conjured Mana Cake", 3, 6) };
 
-        GildedRose app = new GildedRose(items);
+        GildedRoseUpdateService app = new GildedRoseUpdateService(items);
 
         int days = 31;
         if (args.length > 0) {

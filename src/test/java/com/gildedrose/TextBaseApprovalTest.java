@@ -1,7 +1,7 @@
 package com.gildedrose;
 
 import com.gildedrose.models.Item;
-import com.gildedrose.services.GildedRose;
+import com.gildedrose.services.GildedRoseUpdateService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,7 +77,7 @@ public class TextBaseApprovalTest {
         List<String> outputLines = new ArrayList<>();
 
         outputLines.add("OMGHAI!");
-        GildedRose app = new GildedRose(items);
+        GildedRoseUpdateService app = new GildedRoseUpdateService(items);
 
         for (int i = 0; i < daysToUpdateItems + 1; i++) {
             outputLines.add("-------- day " + i + " --------");

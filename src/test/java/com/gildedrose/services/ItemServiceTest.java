@@ -43,7 +43,7 @@ public class ItemServiceTest {
     @Test
     public void testItemSave() {
 
-        ItemEntity itemEntity = new ItemEntity(GildedRose.AGED_BRIE_ITEM, 1, 2);
+        ItemEntity itemEntity = new ItemEntity(GildedRoseUpdateService.AGED_BRIE_ITEM, 1, 2);
         ItemEntity itemEntityTest = itemService.save(itemEntity);
 
         Assert.assertNotNull(itemEntityTest.getId());
@@ -56,10 +56,10 @@ public class ItemServiceTest {
     public void testItemSaveSeveral() {
 
         List<ItemEntity> list = new ArrayList<>();
-        list.add(new ItemEntity(GildedRose.AGED_BRIE_ITEM, 1, 2));
-        list.add(new ItemEntity(GildedRose.AGED_BRIE_ITEM, 1, 2));
-        list.add(new ItemEntity(GildedRose.AGED_BRIE_ITEM, 1, 2));
-        list.add(new ItemEntity(GildedRose.AGED_BRIE_ITEM, 1, 2));
+        list.add(new ItemEntity(GildedRoseUpdateService.AGED_BRIE_ITEM, 1, 2));
+        list.add(new ItemEntity(GildedRoseUpdateService.AGED_BRIE_ITEM, 1, 2));
+        list.add(new ItemEntity(GildedRoseUpdateService.AGED_BRIE_ITEM, 1, 2));
+        list.add(new ItemEntity(GildedRoseUpdateService.AGED_BRIE_ITEM, 1, 2));
 
         itemService.save(list);
 
@@ -72,7 +72,7 @@ public class ItemServiceTest {
     @Test
     public void testItemFindOne() {
 
-        ItemEntity itemEntity = new ItemEntity(GildedRose.AGED_BRIE_ITEM, 1, 2);
+        ItemEntity itemEntity = new ItemEntity(GildedRoseUpdateService.AGED_BRIE_ITEM, 1, 2);
         itemEntity = itemService.save(itemEntity);
 
         ItemEntity itemEntityTest = itemService.findOne(itemEntity.getId());
@@ -85,7 +85,7 @@ public class ItemServiceTest {
     @Test
     public void testItemFinByName() {
 
-        ItemEntity itemEntity = new ItemEntity(GildedRose.AGED_BRIE_ITEM, 1, 2);
+        ItemEntity itemEntity = new ItemEntity(GildedRoseUpdateService.AGED_BRIE_ITEM, 1, 2);
         itemService.save(itemEntity);
 
         List<ItemEntity> foundItems = itemService.findByName(itemEntity.getName());
@@ -96,7 +96,7 @@ public class ItemServiceTest {
     @Test
     public void testItemDelete() {
 
-        ItemEntity itemEntity = new ItemEntity(GildedRose.AGED_BRIE_ITEM, 1, 2);
+        ItemEntity itemEntity = new ItemEntity(GildedRoseUpdateService.AGED_BRIE_ITEM, 1, 2);
         itemEntity = itemService.save(itemEntity);
         ItemEntity itemEntityTest = itemService.findOne(itemEntity.getId());
         Assert.assertNotNull("Failed on inserting an item for deletion.", itemEntityTest.getId());
@@ -109,7 +109,7 @@ public class ItemServiceTest {
     @Test
     public void testItemUpdate() {
 
-        ItemEntity itemEntity = new ItemEntity(GildedRose.AGED_BRIE_ITEM, 1, 2);
+        ItemEntity itemEntity = new ItemEntity(GildedRoseUpdateService.AGED_BRIE_ITEM, 1, 2);
         itemEntity = itemService.save(itemEntity);
 
         ItemEntity itemEntityTest = itemService.findOne(itemEntity.getId());

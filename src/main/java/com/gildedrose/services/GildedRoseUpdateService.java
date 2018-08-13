@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 * All the update logic are in the CustomItem interface implementations so it can be easily maintainable from there.*/
 
 @Service
-public class GildedRose {
+public class GildedRoseUpdateService {
 
     public static final String AGED_BRIE_ITEM = "Aged Brie";
     public static final String BACKSTAGE_PASSES_ITEM = "Backstage passes to a TAFKAL80ETC concert";
@@ -36,11 +36,11 @@ public class GildedRose {
 
     Item[] items;
 
-    public GildedRose(Item[] items) {
+    public GildedRoseUpdateService(Item[] items) {
         this.items = items;
     }
 
-    public GildedRose() {
+    public GildedRoseUpdateService() {
     }
 
     public void updateQuality() {

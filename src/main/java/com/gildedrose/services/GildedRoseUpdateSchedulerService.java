@@ -26,7 +26,7 @@ public class GildedRoseUpdateSchedulerService {
     ItemService itemService;
 
     @Autowired
-    GildedRose gildedRoseService;
+    GildedRoseUpdateService gildedRoseUpdateServiceService;
 
     public void initiateGildedRoseUpdateService() {
         try{
@@ -87,7 +87,7 @@ public class GildedRoseUpdateSchedulerService {
             logger.info("Fetching items for the daily update.");
             List<ItemEntity> items = itemService.findAll();
             if(items != null && items.size() > 0){
-                List<ItemEntity> updatedItems = gildedRoseService.updateQuality(items);
+                List<ItemEntity> updatedItems = gildedRoseUpdateServiceService.updateQuality(items);
                 itemService.save(updatedItems);
             }
             else{
