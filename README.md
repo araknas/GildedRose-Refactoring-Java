@@ -4,7 +4,7 @@
 
   - I think I have implemented all assignment's tasks, almost covered everything with tests.
     After starting the application some example items can be reached with these GET requests:
-    (localhost:8080/items or localhost:8080/items{id} ).
+    (localhost:8080/items or localhost:8080/items/{id} ).
 
   - Additionally it would be wise to implemented some Item/ItemEntity properties validation
     on saving them into the database (I skipped that part);
@@ -22,7 +22,7 @@
     All the update logic are in the CustomItem interface implementations so it can be easily maintainable from there.
 
 
- #The description of assignment
+  The description of assignment
 
   1. Do GildedRose refactoring kata in Java (https://github.com/emilybache/GildedRose-Refactoring-Kata).
      Make code readable and maintainable.

@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
 import javax.annotation.PreDestroy;
 import java.util.ArrayList;
@@ -22,11 +20,8 @@ import java.util.List;
  */
 @SpringBootApplication
 public class GildedRoseMain implements CommandLineRunner {
-    private ConfigurableApplicationContext springContext;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private ElasticsearchOperations es;
     @Autowired
     private GildedRoseUpdateSchedulerService gildedRoseUpdateSchedulerService;
     @Autowired
@@ -40,17 +35,17 @@ public class GildedRoseMain implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         logger.info("Started GildedRose Spring Boot Application.");
-        insertInitialData();
+        insertExampleData();
         gildedRoseUpdateSchedulerService.initiateGildedRoseUpdateService();
     }
 
     @PreDestroy
     public void onExit() {
-        gildedRoseUpdateSchedulerService.stopServiceThread();
         logger.info("Stopping GildedRose Spring Boot Application.");
+        gildedRoseUpdateSchedulerService.stopServiceThread();
     }
 
-    private void insertInitialData() {
+    private void insertExampleData() {
         try{
             long existingItemsCount = itemService.findAll().size();
             if(existingItemsCount == 0){

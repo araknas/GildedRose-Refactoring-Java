@@ -49,7 +49,7 @@ public class GildedRoseUpdateSchedulerService {
                 }
                 catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
-                    logger.error("Exception while running GildedRoseUpdateService thread.");
+                    logger.error("InterruptedException while running GildedRoseUpdateService thread.");
                 }
             }
         });
@@ -65,7 +65,7 @@ public class GildedRoseUpdateSchedulerService {
             serviceRunner.shutdown();
         }
         catch (Exception e){
-            logger.error("Exception while shutting down GildedRoseUpdateService, e = " + e.getMessage());
+            logger.error("Exception while shutting down GildedRoseUpdateService, e = " + e.getMessage(), e);
         }
         this.run = false;
     }
