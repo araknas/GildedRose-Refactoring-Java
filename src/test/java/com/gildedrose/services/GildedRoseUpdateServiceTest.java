@@ -170,6 +170,15 @@ public class GildedRoseUpdateServiceTest {
     }
 
     @Test
+    public void testCustomItemInitWhenNameMatchesOnlyPartially() throws Exception{
+        parentItem = new Item("super duper Conjured item", 0 ,0);
+        CustomItem customItem = GildedRoseUpdateService.identifyCustomItem(parentItem);
+        Assert.assertNotNull("Custom item cannot be null.", customItem);
+        Assert.assertTrue("Custom item expected to be instance of ConjuredItem.",
+                customItem instanceof ConjuredItem);
+    }
+
+    @Test
     public void testCustomItemGetter() throws Exception{
 
         parentItem = new Item(GildedRoseUpdateService.AGED_BRIE_ITEM, 5 ,3);

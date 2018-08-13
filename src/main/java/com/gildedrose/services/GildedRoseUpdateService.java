@@ -52,9 +52,9 @@ public class GildedRoseUpdateService {
                     Item item = items[i];
                     serviceRunner.execute(() -> handleUpdateTask(item, latch));
                 }
-                logger.info("Waiting for items to be updated (updating " + items.length + " item(s))");
+                //logger.info("Waiting for items to be updated (updating " + items.length + " item(s))");
                 latch.await();
-                logger.info("Finished updating items.");
+                //logger.info("Finished updating items.");
             }
         }
         catch (Exception e){
@@ -83,7 +83,6 @@ public class GildedRoseUpdateService {
     private void handleUpdateTask(Item item, CountDownLatch latch) {
         try{
             CustomItem customItem = identifyCustomItem(item);
-            logger.info("Updating an item with values: " +  (item != null ? item.toString() : ""));
             customItem.recalculateItemValuesAfterOneDay();
             item.sellIn = customItem.getSellInn();
             item.quality = customItem.getQuality();
@@ -92,7 +91,6 @@ public class GildedRoseUpdateService {
             logger.error("Exception while handling item (" + item.toString() + ") update task, e = " + e.getMessage(), e);
         }
         finally {
-            logger.info("Finishing update task for an item: " +  (item != null ? item.name : ""));
             latch.countDown();
         }
     }
@@ -130,25 +128,18 @@ public class GildedRoseUpdateService {
 
     private static CustomItem createCustomItem(String name, int sellIn, int quality) throws Exception{
 
-        CustomItem customItem = null;
-
-        switch (name) {
-            case AGED_BRIE_ITEM:
-                customItem = new AgedBrieItem(name, sellIn,quality);
-                break;
-            case BACKSTAGE_PASSES_ITEM:
-                customItem = new BackStagePassesItem(name, sellIn, quality);
-                break;
-            case SULFURAS_ITEM:
-                customItem = new SulfurasItem(name, sellIn, quality);
-                break;
-            case CONJURED_ITEM:
-                customItem = new ConjuredItem(name, sellIn, quality);
-                break;
-            default:
-                customItem = new OtherItem(name, sellIn, quality);
-                break;
+        if(name.contains(AGED_BRIE_ITEM)){
+            return new AgedBrieItem(name, sellIn,quality);
         }
-        return customItem;
+        else if(name.contains(BACKSTAGE_PASSES_ITEM)){
+            return new BackStagePassesItem(name, sellIn, quality);
+        }
+        else if(name.contains(SULFURAS_ITEM)){
+            return new SulfurasItem(name, sellIn, quality);
+        }
+        else if(name.contains(CONJURED_ITEM)){
+            return new ConjuredItem(name, sellIn, quality);
+        }
+        return new OtherItem(name, sellIn, quality);
     }
 }

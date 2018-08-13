@@ -18,6 +18,7 @@ import java.util.List;
 public class TextBaseApprovalTest {
 
     static final String PATH_TO_EXPECTED_OUTPUT_FILE = "golden_output.txt";
+    static final String PATH_TO_EXPECTED_OUTPUT_FILE_WITH_IMPL = "golden_output_with_conjured.txt";
     Item[] items = null;
     List<String> expectedOutputLines = null;
     List<String> actualOutputLines = null;
@@ -43,7 +44,7 @@ public class TextBaseApprovalTest {
 
         List<String> outputLines = new ArrayList<>();
         ClassLoader classLoader = TextBaseApprovalTest.class.getClassLoader();
-        String url = classLoader.getResource(PATH_TO_EXPECTED_OUTPUT_FILE).getFile();
+        String url = classLoader.getResource(PATH_TO_EXPECTED_OUTPUT_FILE_WITH_IMPL).getFile();
         File file = new File(url);
 
         try(BufferedReader br = new BufferedReader(new FileReader(file))) {

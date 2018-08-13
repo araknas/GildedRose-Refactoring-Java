@@ -6,6 +6,7 @@ import com.gildedrose.models.Item;
  * Created by Giedrius on 2018-08-08.
  */
 public class SulfurasItem extends Item implements CustomItem {
+    private static final int LEGENDARY_ITEM_QUALITY_VALUE = 80;
 
     public SulfurasItem(String name, int sellIn, int quality) {
         super(name, sellIn, quality);
@@ -13,7 +14,7 @@ public class SulfurasItem extends Item implements CustomItem {
 
     @Override
     public void recalculateItemValuesAfterOneDay() {
-        // Note: Sulfuras item currently won't be effected in any way.
+        super.quality = LEGENDARY_ITEM_QUALITY_VALUE;
     }
 
     @Override
