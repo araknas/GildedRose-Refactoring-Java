@@ -52,9 +52,7 @@ public class GildedRoseUpdateService {
                     Item item = items[i];
                     serviceRunner.execute(() -> handleUpdateTask(item, latch));
                 }
-                //logger.info("Waiting for items to be updated (updating " + items.length + " item(s))");
                 latch.await();
-                //logger.info("Finished updating items.");
             }
         }
         catch (Exception e){
