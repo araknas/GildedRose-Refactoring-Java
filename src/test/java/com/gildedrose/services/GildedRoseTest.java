@@ -139,28 +139,28 @@ public class GildedRoseTest {
     public void testCustomItemInitiationFromParentItem() throws Exception{
 
         parentItem = new Item(GildedRose.AGED_BRIE_ITEM, 0 ,0);
-        CustomItem customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        CustomItem customItem = GildedRose.identifyCustomItem(parentItem);
         Assert.assertNotNull("Custom item cannot be null.", customItem);
         Assert.assertTrue("Custom item expected to be instance of AgedBrieItem.",
                 customItem instanceof AgedBrieItem);
 
         parentItem = new Item(GildedRose.BACKSTAGE_PASSES_ITEM, 0 ,0);
-        customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        customItem = GildedRose.identifyCustomItem(parentItem);
         Assert.assertTrue("Custom item expected to be instance of BackStagePassesItem.",
                 customItem instanceof BackStagePassesItem);
 
         parentItem = new Item(GildedRose.SULFURAS_ITEM, 0 ,0);
-        customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        customItem = GildedRose.identifyCustomItem(parentItem);
         Assert.assertTrue("Custom item expected to be instance of SulfurasItem.",
                 customItem instanceof SulfurasItem);
 
         parentItem = new Item("Elixir of the Mongoose", 0 ,0);
-        customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        customItem = GildedRose.identifyCustomItem(parentItem);
         Assert.assertTrue("Custom item expected to be instance of OtherItem.",
                 customItem instanceof OtherItem);
 
         parentItem = new Item("Conjured", 0 ,0);
-        customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        customItem = GildedRose.identifyCustomItem(parentItem);
         Assert.assertTrue("Custom item expected to be instance of ConjuredItem.",
                 customItem instanceof ConjuredItem);
     }
@@ -169,7 +169,7 @@ public class GildedRoseTest {
     public void testCustomItemGetter() throws Exception{
 
         parentItem = new Item(GildedRose.AGED_BRIE_ITEM, 5 ,3);
-        CustomItem customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        CustomItem customItem = GildedRose.identifyCustomItem(parentItem);
         Assert.assertEquals("Custom item's getter return wrong sell inn value.", customItem.getSellInn(), 5);
         Assert.assertEquals("Custom item's getter return wrong quality value.", customItem.getQuality(), 3);
 
@@ -178,7 +178,7 @@ public class GildedRoseTest {
     public void testCustomItemSetters() throws Exception{
 
         parentItem = new Item(GildedRose.AGED_BRIE_ITEM, 5 ,3);
-        CustomItem customItem = GildedRose.initiateCustomItemFromParent(parentItem);
+        CustomItem customItem = GildedRose.identifyCustomItem(parentItem);
         customItem.setSellInn(10);
         customItem.setQuality(20);
         Assert.assertEquals("Custom item's setter sets wrong sell inn value.", customItem.getSellInn(), 10);

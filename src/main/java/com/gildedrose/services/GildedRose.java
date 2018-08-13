@@ -12,6 +12,16 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/* NOTE: This class has two updateQuality methods:
+* void updateQuality() is for the Items[] which have no id property and won't be saved into the database;
+*
+* List<ItemEntity> updateQuality(List<ItemEntity> items) is for the items which are passed with the method.
+* The method returns items for the further work associated with the database.
+* Ideally I would remake the original Item class and avoid this duplicate code but in the REFACTORING assignment
+* it was said that the Item class cannot be changed so I created a new one called it The ItemEntity and used it
+* for the additional tasks.
+* All the update logic are in the CustomItem interface implementations so it can be easily maintainable from there.*/
+
 @Service
 public class GildedRose {
 
@@ -39,8 +49,8 @@ public class GildedRose {
                 CountDownLatch latch = new CountDownLatch(items.length);
 
                 for (int i = 0; i < items.length; i++) {
-                    Item currentItem = items[i];
-                    serviceRunner.execute(new UpdateTaskHandler(currentItem, latch));
+                    Item item = items[i];
+                    serviceRunner.execute(new UpdateTaskHandler(item, latch));
                 }
                 logger.info("Waiting for items to be updated (updating " + items.length + " item(s)");
                 latch.await();
@@ -56,8 +66,8 @@ public class GildedRose {
         try{
             if(items != null){
                 CountDownLatch latch = new CountDownLatch(items.size());
-                for (ItemEntity currentItem : items) {
-                    serviceRunner.execute(new UpdateTaskHandler(currentItem, latch));
+                for (ItemEntity item : items) {
+                    serviceRunner.execute(new UpdateTaskHandler(item, latch));
                 }
                 logger.info("Waiting for items to be updated (updating " + items.size() + " item(s)");
                 latch.await();
@@ -68,63 +78,6 @@ public class GildedRose {
             logger.error("Exception while updating items quality, e = " + e.getMessage(), e);
         }
         return items;
-    }
-
-    public static CustomItem initiateCustomItemFromParent(Item parentItem) {
-
-        CustomItem customItem = null;
-        try{
-            String itemName = parentItem.name;
-            switch (itemName){
-                case AGED_BRIE_ITEM:
-                    customItem = new AgedBrieItem(parentItem.name, parentItem.sellIn, parentItem.quality);
-                    break;
-                case BACKSTAGE_PASSES_ITEM:
-                    customItem = new BackStagePassesItem(parentItem.name, parentItem.sellIn, parentItem.quality);
-                    break;
-                case SULFURAS_ITEM:
-                    customItem = new SulfurasItem(parentItem.name, parentItem.sellIn, parentItem.quality);
-                    break;
-                case CONJURED_ITEM:
-                    customItem = new ConjuredItem(parentItem.name, parentItem.sellIn, parentItem.quality);
-                    break;
-                default:
-                    customItem = new OtherItem(parentItem.name, parentItem.sellIn, parentItem.quality);
-                    break;
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return customItem;
-    }
-
-    private CustomItem initiateCustomItemFromParent(ItemEntity parentItem) {
-        CustomItem customItem = null;
-        try{
-            String itemName = parentItem.getName();
-            switch (itemName){
-                case AGED_BRIE_ITEM:
-                    customItem = new AgedBrieItem(parentItem.getName(), parentItem.getSellIn(), parentItem.getQuality());
-                    break;
-                case BACKSTAGE_PASSES_ITEM:
-                    customItem = new BackStagePassesItem(parentItem.getName(), parentItem.getSellIn(), parentItem.getQuality());
-                    break;
-                case SULFURAS_ITEM:
-                    customItem = new SulfurasItem(parentItem.getName(), parentItem.getSellIn(), parentItem.getQuality());
-                    break;
-                case CONJURED_ITEM:
-                    customItem = new ConjuredItem(parentItem.getName(), parentItem.getSellIn(), parentItem.getQuality());
-                    break;
-                default:
-                    customItem = new OtherItem(parentItem.getName(), parentItem.getSellIn(), parentItem.getQuality());
-                    break;
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return customItem;
     }
 
     class UpdateTaskHandler implements Runnable {
@@ -155,7 +108,7 @@ public class GildedRose {
 
     private void handleUpdateTask(Item item, CountDownLatch latch) {
         try{
-            CustomItem customItem = initiateCustomItemFromParent(item);
+            CustomItem customItem = identifyCustomItem(item);
             logger.info("Update item: " +  (item != null ? item.toString() : ""));
             customItem.recalculateItemValuesAfterOneDay();
             item.sellIn = customItem.getSellInn();
@@ -172,7 +125,7 @@ public class GildedRose {
 
     private void handleUpdateTask(ItemEntity item, CountDownLatch latch) {
         try{
-            CustomItem customItem = initiateCustomItemFromParent(item);
+            CustomItem customItem = identifyCustomItem(item);
             logger.info("Update item: " +  (item != null ? item.toString() : ""));
             customItem.recalculateItemValuesAfterOneDay();
             item.setSellIn(customItem.getSellInn());
@@ -185,5 +138,43 @@ public class GildedRose {
             logger.info("Finishing update task for item: " + (item != null ? item.getName() : ""));
             latch.countDown();
         }
+    }
+
+    public static CustomItem identifyCustomItem(Item parentItem) throws Exception{
+        String name = parentItem.name;
+        int sellIn = parentItem.sellIn;
+        int quality = parentItem.quality;
+        return createCustomItem(name, sellIn, quality);
+    }
+
+    public static CustomItem identifyCustomItem(ItemEntity item) throws Exception{
+        String name = item.getName();
+        int sellIn = item.getSellIn();
+        int quality = item.getQuality();
+        return createCustomItem(name, sellIn, quality);
+    }
+
+    private static CustomItem createCustomItem(String name, int sellIn, int quality) throws Exception{
+
+        CustomItem customItem = null;
+
+        switch (name) {
+            case AGED_BRIE_ITEM:
+                customItem = new AgedBrieItem(name, sellIn,quality);
+                break;
+            case BACKSTAGE_PASSES_ITEM:
+                customItem = new BackStagePassesItem(name, sellIn, quality);
+                break;
+            case SULFURAS_ITEM:
+                customItem = new SulfurasItem(name, sellIn, quality);
+                break;
+            case CONJURED_ITEM:
+                customItem = new ConjuredItem(name, sellIn, quality);
+                break;
+            default:
+                customItem = new OtherItem(name, sellIn, quality);
+                break;
+        }
+        return customItem;
     }
 }
