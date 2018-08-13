@@ -1,7 +1,6 @@
-package com.gildedrose;
+package com.gildedrose.services;
 
 import com.gildedrose.models.elasticsearch_models.ItemEntity;
-import com.gildedrose.services.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.util.concurrent.Executors;
  * Created by Giedrius on 2018-08-10.
  */
 @Service
-public class GildedRoseUpdateService {
+public class GildedRoseUpdateSchedulerService {
     public static final int ITEMS_UPDATE_INTERVAL_IN_MILLIS = 24 * 60 * 60 * 1000; // One day
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     final ExecutorService pool = Executors.newFixedThreadPool(1);

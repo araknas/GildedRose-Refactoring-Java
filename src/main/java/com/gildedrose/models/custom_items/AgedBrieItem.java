@@ -1,6 +1,6 @@
 package com.gildedrose.models.custom_items;
 
-import com.gildedrose.Item;
+import com.gildedrose.models.Item;
 
 /**
  * Created by Giedrius on 2018-08-08.

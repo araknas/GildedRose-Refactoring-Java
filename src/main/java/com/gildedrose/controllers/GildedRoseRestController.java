@@ -43,7 +43,7 @@ public class GildedRoseRestController {
     }
 
     @RequestMapping(value="/items/{id}")
-    public ResponseEntity<?> getAllItems(@PathVariable("id") String id) throws Exception{
+    public ResponseEntity<?> getItemById(@PathVariable("id") String id) throws Exception{
         try{
             HttpStatus status = HttpStatus.OK;
             ItemEntity item = itemService.findOne(id);
@@ -67,7 +67,7 @@ public class GildedRoseRestController {
     private BaseJsonResponse createResponseBody(
             List<JsonDataItem> jsonDataItemList,
             HttpStatus status,
-            Exception e) {
+            Exception e) throws Exception{
 
         BaseJsonResponse response = new BaseJsonResponse();
 

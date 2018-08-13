@@ -1,12 +1,20 @@
-package com.gildedrose;
+package com.gildedrose.services;
 
+import com.gildedrose.GildedRoseMain;
+import com.gildedrose.models.Item;
 import com.gildedrose.models.custom_items.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = GildedRoseMain.class)
 public class GildedRoseTest {
 
     AgedBrieItem agedBrieItem = null;
@@ -16,8 +24,16 @@ public class GildedRoseTest {
     OtherItem otherItem = null;
     Item parentItem = null;
 
+    @Autowired
+    GildedRose gildedRoseAsService;
+
     @Before
     public void setUp(){
+    }
+
+    @Test
+    public void testItemServiceInit(){
+        Assert.assertNotNull("failed initiating GildedRose (as service) bean", gildedRoseAsService);
     }
 
     @Test

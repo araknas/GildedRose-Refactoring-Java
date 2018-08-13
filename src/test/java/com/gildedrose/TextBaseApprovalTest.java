@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import com.gildedrose.models.Item;
+import com.gildedrose.services.GildedRose;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,5 +1,6 @@
-package com.gildedrose;
+package com.gildedrose.services;
 
+import com.gildedrose.GildedRoseMain;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,12 +13,12 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GildedRoseMain.class)
-public class GildedRoseUpdateServiceTest {
+public class GildedRoseUpdateSchedulerServiceTest {
     @Autowired
-    GildedRoseUpdateService gildedRoseUpdateService;
+    GildedRoseUpdateSchedulerService gildedRoseUpdateSchedulerService;
 
     @Test
     public void testGildedRoseUpdateServiceInit(){
-        Assert.assertNotNull("failed initiating GildedRoseUpdateService bean", gildedRoseUpdateService);
+        Assert.assertNotNull("failed initiating GildedRoseUpdateService bean", gildedRoseUpdateSchedulerService);
     }
 }

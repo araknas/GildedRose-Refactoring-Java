@@ -1,4 +1,4 @@
-package com.gildedrose;
+package com.gildedrose.configs;
 
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.NodeBuilder;

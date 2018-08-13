@@ -1,7 +1,7 @@
-package com.gildedrose;
+package com.gildedrose.services;
 
+import com.gildedrose.GildedRoseMain;
 import com.gildedrose.models.elasticsearch_models.ItemEntity;
-import com.gildedrose.services.ItemService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

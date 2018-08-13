@@ -1,11 +1,14 @@
-package com.gildedrose;
+package com.gildedrose.services;
 
+import com.gildedrose.models.Item;
 import com.gildedrose.models.custom_items.*;
 import com.gildedrose.models.elasticsearch_models.ItemEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-class GildedRose {
+@Service
+public class GildedRose {
 
     public static final String AGED_BRIE_ITEM = "Aged Brie";
     public static final String BACKSTAGE_PASSES_ITEM = "Backstage passes to a TAFKAL80ETC concert";
